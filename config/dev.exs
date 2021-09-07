@@ -6,6 +6,7 @@ config :bank_api, BankApi.Repo,
   password: "postgres",
   database: "bank_api_dev",
   hostname: "localhost",
+  types: BankApi.PostgresTypes,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

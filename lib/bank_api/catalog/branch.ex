@@ -7,7 +7,7 @@ defmodule BankApi.Catalog.Branch do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  @fields [:address, :district, :name, :number, :postal_code, :phone, :bank_id]
+  @fields [:address, :district, :name, :number, :postal_code, :phone, :bank_id, :geom]
 
   schema "branches" do
     field :address, :string
@@ -16,6 +16,7 @@ defmodule BankApi.Catalog.Branch do
     field :number, :string
     field :phone, :string
     field :postal_code, :string
+    field :geom, Geo.PostGIS.Geometry
 
     belongs_to :bank, Bank
 
