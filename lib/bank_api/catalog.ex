@@ -4,6 +4,7 @@ defmodule BankApi.Catalog do
   """
 
   import Ecto.Query, warn: false
+  import Geo.PostGIS
   alias BankApi.Repo
 
   alias BankApi.Catalog.Bank
@@ -119,6 +120,28 @@ defmodule BankApi.Catalog do
   def list_branches(bank_id) do
     Branch
     |> where([b], b.bank_id == ^bank_id)
+    |> Repo.all()
+  end
+
+  def list_branches_by_distance(bank_id, location) do
+    query =
+      from b in Branch,
+        select: %{
+          id: b.id,
+          bank_id: b.bank_id,
+          distance: st_distancesphere(b.geom, ^location),
+          name: b.name,
+          phone: b.phone,
+          address: b.address,
+          postal_code: b.postal_code,
+          district: b.district,
+          number: b.number,
+          geom: b.geom
+        },
+        where: b.bank_id == ^bank_id,
+        order_by: st_distancesphere(b.geom, ^location)
+
+    query
     |> Repo.all()
   end
 

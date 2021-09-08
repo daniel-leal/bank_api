@@ -6,8 +6,19 @@ defmodule BankApiWeb.BranchController do
 
   action_fallback BankApiWeb.FallbackController
 
-  def index(conn, %{"bank_id" => bank_id}) do
-    branches = Catalog.list_branches(bank_id)
+  def index(conn, %{"bank_id" => bank_id, "latitude" => latitude, "longitude" => longitude}) do
+    {latitude, _} = Float.parse(latitude)
+    {longitude, _} = Float.parse(longitude)
+
+    user_location = %Geo.Point{
+      coordinates: {latitude, longitude},
+      srid: 4326
+    }
+
+    branches = Catalog.list_branches_by_distance(bank_id, user_location)
+
+    IO.inspect(branches)
+
     render(conn, "index.json", branches: branches)
   end
 

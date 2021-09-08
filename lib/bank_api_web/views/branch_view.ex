@@ -20,7 +20,8 @@ defmodule BankApiWeb.BranchView do
       postal_code: branch.postal_code,
       district: branch.district,
       number: branch.number,
-      geom: branch.geom
+      geom: branch.geom,
+      distance: branch.distance
     }
   end
 end

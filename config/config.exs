@@ -10,6 +10,9 @@ use Mix.Config
 config :bank_api,
   ecto_repos: [BankApi.Repo]
 
+config :geo_postgis,
+  json_library: Jason
+
 config :bank_api, BankApi.Repo,
   migration_primary_key: [type: :binary_id],
   migration_foreign_key: [type: :binary_id]
